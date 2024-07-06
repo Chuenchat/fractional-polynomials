@@ -1,5 +1,11 @@
 import { Coefficient } from "./type";
 
+export const getRandomIntInclusive = (min: number, max: number): number => {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+};
+
 export const polynomialDegree1 = (c: Coefficient): string => {
   const a = c.a;
   const b = c.b;

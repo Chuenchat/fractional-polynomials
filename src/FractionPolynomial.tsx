@@ -3,7 +3,11 @@ import { BlockMath } from "react-katex";
 
 import "katex/dist/katex.min.css";
 import "./App.css";
-import { polynomialDegree1, polynomialDegree2 } from "./utils/createString";
+import {
+  getRandomIntInclusive,
+  polynomialDegree1,
+  polynomialDegree2,
+} from "./utils/createString";
 import { Coefficient, GameState } from "./utils/type";
 
 export const FractionPolynomial: React.FC<{
@@ -17,10 +21,10 @@ export const FractionPolynomial: React.FC<{
   const nAnswers = 12;
 
   const generateQuestion = () => {
-    const a1 = Math.floor(Math.random() * 10);
-    const b1 = Math.floor(Math.random() * 10);
-    const a2 = Math.floor(Math.random() * 10);
-    const b2 = Math.floor(Math.random() * 10);
+    const a1 = getRandomIntInclusive(-10, 10);
+    const b1 = getRandomIntInclusive(-10, 10);
+    const a2 = getRandomIntInclusive(-10, 10);
+    const b2 = getRandomIntInclusive(-10, 10);
 
     const question: [Coefficient, Coefficient] = [
       { a: a1, b: b1, correct: true },
@@ -30,8 +34,8 @@ export const FractionPolynomial: React.FC<{
     let answer: Coefficient[] = [];
     answer.push(...question);
     for (let i = 0; i < nAnswers - 2; i++) {
-      const a = Math.floor(Math.random() * 10);
-      const b = Math.floor(Math.random() * 10);
+      const a = getRandomIntInclusive(-10, 10);
+      const b = getRandomIntInclusive(-10, 10);
       // check if the answer is already in the list
       if (!answer.some((ans) => ans.a === a && ans.b === b)) {
         answer.push({ a, b, correct: false });
@@ -56,7 +60,7 @@ export const FractionPolynomial: React.FC<{
             <div className="text-3xl py-6">
               <BlockMath>{polynomialDegree2(s.question)}</BlockMath>
             </div>
-            <div className="flex flex-row flex-wrap gap-5 justify-center">
+            <div className="sm:flex sm:flex-row sm:flex-wrap gap-5 justify-center grid grid-cols-2">
               {s.answer.map((ans, i) => {
                 const isSelected = selected.includes(i);
                 const isCorrect = ans.correct;
@@ -69,7 +73,7 @@ export const FractionPolynomial: React.FC<{
                           ? "bg-green-200"
                           : "bg-red-200"
                         : "bg-gray-100"
-                    } p-5 rounded-lg w-40`}
+                    } p-5 rounded-lg w-32 sm:w-44`}
                     onClick={() => {
                       if (!isSelected) {
                         setSelected([...selected, i]);
